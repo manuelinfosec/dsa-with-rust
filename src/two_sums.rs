@@ -6,7 +6,6 @@
  *
 */
 
-mod two_sums;
 
 use std::collections::HashMap;
 

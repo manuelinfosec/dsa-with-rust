@@ -1,8 +1,7 @@
-/*
-    Implementing the Fisher-Yates shuffle algorithm,
-    an algorithm for generating a random permutation of a sequence.
-*/
-
+/**
+ *  Implementing the Fisher-Yates shuffle algorithm,
+ *   an algorithm for generating a random permutation of a sequence.
+ */
 extern crate rand;
 use rand::Rng;
 
