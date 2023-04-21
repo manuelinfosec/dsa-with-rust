@@ -1,30 +1,76 @@
-///
-/// Creates n x n matrix filled with 0s
-///
-fn populate_matrix(&n: &i32) -> Vec<Vec<i32>> {
-    let mut array = vec![];
+extern crate rand;
 
-    // loop through the outer vector
-    for a in 0..n {
-        // push an empty vector before each iteration for population
-        array.push(vec![]);
+use rand::{thread_rng, Rng};
 
-        // loop through inner vector
-        for _ in 0..n {
-            // push zero to inner vector n times
-            array[a as usize].push(0);
+/**
+ *  Implementing the Fisher-Yates shuffle algorithm,
+ *   an algorithm for generating a random permutation of a sequence
+ *      Together with Bogosort algorithm
+ */
+
+trait Swap {
+    fn is_sorted(&self) -> bool;
+}
+
+impl Swap for Vec<usize> {
+    fn is_sorted(&self) -> bool {
+        // // iterate through the list and enumerate indexes
+        // for i in 0..self.len() {
+        //     let prev = self.get(i - 1).unwrap();
+        // }
+
+        for (idx, i) in self.iter().enumerate() {
+            // if the previous index is greater than the current index
+            if self[idx + 1] < *i {
+                // array isn't sorted
+                return false;
+            }
+        }
+
+        true
+    }
+}
+
+static mut COUNTER: i32 = 0;
+
+fn shuffle(arr: &mut Vec<usize>) -> Vec<usize> {
+    // derive vector size
+
+    // iterate through the vector
+    for idx in (0..arr.len()).rev() {
+        let mut rng: rand::ThreadRng = thread_rng();
+
+        // generate a random number between 0 and idx
+        let random_idx: usize = rng.gen_range(0, idx + 1);
+
+        // swap random_idx to current idx, without loosing random_idx's value
+        arr.swap(idx, random_idx)
+    }
+
+    // return array
+    arr.to_vec()
+}
+
+fn bogosort(mut arr: &mut Vec<usize>) -> Vec<usize> {
+    while !arr.is_sorted() {
+        shuffle(&mut arr);
+        unsafe {
+            COUNTER += 1;
+            println!("{arr:?}, {COUNTER}");
         }
     }
 
-    return array;
-}
-
-fn create_matrix(n: i32) -> Vec<Vec<i32>> {
-    let matrix: Vec<Vec<i32>> = populate_matrix(&n);
-    return matrix;
+    arr.to_owned()
 }
 
 fn main() {
-    let mat: Vec<Vec<i32>> = create_matrix(4);
-    println!("{mat:?}");
+    // let mut cards = Vector::new();
+    let mut cards: Vec<usize> = vec![1, 5, 3, 4, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    println!("Original array: {:?}", cards);
+
+    // keep shuffling till cards is sorted
+    let sorted_cards = bogosort(&mut cards);
+
+    println!("Unsorted array: {cards:?}");
+    println!("Shuffled array: {sorted_cards:?}");
 }
