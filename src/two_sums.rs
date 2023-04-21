@@ -6,26 +6,52 @@
  *
 */
 
+use std::collections::{HashMap, HashSet};
 
-use std::collections::HashMap;
+// less efficient
+// fn two_sums(nums: Vec<i32>, target: i32) -> (i32, i32) {
+//     let mut mapping: HashMap<i32, i32> = HashMap::new();
+//
+//     let mut retval: i32 = 0;
+//     let mut retidx: i32 = 0;
+//
+//     for (idx, val) in nums.iter().enumerate() {
+//         let eval = target - val;
+//
+//         if mapping.contains_key(&eval) {
+//             retval = *mapping.get(&eval).unwrap();
+//             retidx = idx.try_into().unwrap();
+//         } else {
+//             mapping.insert(*val, idx.try_into().unwrap());
+//         }
+//     }
+//     return (retval, retidx);
+// }
 
+// more efficient
 fn two_sums(nums: Vec<i32>, target: i32) -> (i32, i32) {
-    let mut mapping: HashMap<i32, i32> = HashMap::new();
+    // use a hashset for the sake of unique values
+    let mut mapping: HashSet<i32> = HashSet::<i32>::new();
 
     let mut retval: i32 = 0;
     let mut retidx: i32 = 0;
 
-    for (idx, val) in nums.iter().enumerate() {
-        let eval = target - val;
+    // use of less memory space for storing index and value
+    for idx in 0..nums.len() {
+        let val: i32 = nums[idx];
+        let eval: i32 = target - val;
 
-        if mapping.contains_key(&eval) {
-            retval = *mapping.get(&eval).unwrap();
-            retidx = idx.try_into().unwrap();
+        // reduce number of hash lookups
+        if let Some(pos) = mapping.get(&eval) {
+            retval = *pos;
+            retidx = idx as i32;
         } else {
-            mapping.insert(*val, idx.try_into().unwrap());
+            mapping.insert(val);
         }
     }
-    return (retval, retidx);
+
+    // make code more rusty
+    (retval, retidx)
 }
 
 fn main() {
