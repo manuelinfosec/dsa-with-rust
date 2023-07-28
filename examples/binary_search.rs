@@ -74,5 +74,5 @@ fn main() {
     // let index: i32 = binary_search_iter(values, value);
     let index: i32 = binary_search_recr(values, value, 0, values_length);
 
-    assert_eq!(index, 1);
+    assert_eq!(index, -1);
 }
