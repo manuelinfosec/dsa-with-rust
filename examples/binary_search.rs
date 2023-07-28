@@ -41,14 +41,13 @@ fn binary_search_recr(array: Vec<i32>, value: i32, low: usize, high: usize) -> i
     // compute the mid-point of the array
     let mid: usize = (low + high) / 2;
 
-    // for a base case, check if the low is equal of less than the high
+    // for a base case, check if the low is equal or less than the high
     if low >= high {
         // return not found
         return -1;
     }
-    println!("{low} {high}");
 
-    // check if the mid value is the current value
+    // check if the mid value is equal to the specified value
     if array[mid as usize] == value {
         // return found index
         return mid as i32;
