@@ -1,5 +1,4 @@
-fn binary_search(array: Vec<i32>, value: i32) -> i32 {
-
+fn binary_search_iter(array: Vec<i32>, value: i32) -> i32 {
     // initialize the lower point of the array
     let mut low: usize = 0;
 
@@ -16,7 +15,6 @@ fn binary_search(array: Vec<i32>, value: i32) -> i32 {
     while low < high {
         // determine mid-point: (low + high) / 2
         let mid: usize = (high + low) / 2; // confirm that is performs integer division
-        println!("{mid}");
 
         // if the current mid point is the seeked value
         if array[mid] == value {
@@ -39,10 +37,42 @@ fn binary_search(array: Vec<i32>, value: i32) -> i32 {
     -1
 }
 
+fn binary_search_recr(array: Vec<i32>, value: i32, low: usize, high: usize) -> i32 {
+    // compute the mid-point of the array
+    let mid: usize = (low + high) / 2;
+
+    // for a base case, check if the low is equal of less than the high
+    if low >= high {
+        // return not found
+        return -1;
+    }
+    println!("{low} {high}");
+
+    // check if the mid value is the current value
+    if array[mid as usize] == value {
+        // return found index
+        return mid as i32;
+    }
+
+    // if the mid-value is lower than the specified value
+    if array[mid] < value {
+        // re-call the current function making mid-point the new low index
+        return binary_search_recr(array, value, mid, high);
+    // if the mid-value is higher than the specified value
+    } else {
+        // re-call the currenct function making the mid-point the new high index
+        return binary_search_recr(array, value, low, mid);
+    }
+}
+
 fn main() {
     let values: Vec<i32> = vec![1, 2, 3, 4, 5, 6, 7, 8];
-    let value: i32 = 2;
-    let index: i32 = binary_search(values, value);
+    let value: i32 = 0;
+    // this is done before any of the functions take ownership of the values
+    let values_length: usize = values.len();
 
-    println!("{value} is at index {index}");
+    // let index: i32 = binary_search_iter(values, value);
+    let index: i32 = binary_search_recr(values, value, 0, values_length);
+
+    assert_eq!(index, 1);
 }
