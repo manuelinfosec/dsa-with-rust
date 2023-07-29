@@ -28,18 +28,19 @@ fn is_unique(string: &str) -> bool {
     // initialize a hash map for storing the occurrence of characters
     let mut string_map: HashMap<char, u32> = HashMap::new();
 
+    // iterate through all the characters in the input string as type `char`
     for str in string.chars() {
         // check if the character exists in the map
         let exists: bool = string_map.contains_key(&str);
 
         // if it exists
         if exists {
-            // return true
+            // "un-unique" string
             return false;
         }
         // if it does not exist
         else {
-            // insert it into the map
+            // insert it into the map and continue iteration
             string_map.insert(str, 1);
         }
     }
