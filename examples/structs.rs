@@ -99,7 +99,7 @@ fn main() {
 
     println!("pair contains {:?} and {:?}", integer, decimal);
 
-    let area: f3 = rect_area(rectangle);
+    let area: f32 = rect_area(rectangle);
 
     println!("Area of rectangle: {:?}", area);
 }
